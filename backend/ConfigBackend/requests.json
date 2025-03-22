@@ -1,0 +1,38 @@
+{
+    "name": "under_age",
+    "flow": [
+        {
+            "temp_id": 100,
+            "type": "start",
+            "next_block_temp_id": 101
+        },
+        {
+            "temp_id": 101,
+            "type": "condition",
+            "next_block_rules": [
+                {
+                    "variable_name": "age",
+                    "operator": ">",
+                    "value": "18",
+                    "next_block_temp_id": 102
+                },
+                {
+                    "variable_name": "age",
+                    "operator": "else",
+                    "value": "18",
+                    "next_block_temp_id": 103
+                }
+            ]
+        },
+        {
+            "temp_id": 102,
+            "type": "result",
+            "decision_value": "true"
+        },
+        {
+            "temp_id": 103,
+            "type": "result",
+            "decision_value": "false"
+        }
+    ]
+}
