@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  decision_engine.db:
+    image: postgres:latest
+    container_name: decision_engine.db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=decision_engine_db
+    restart: always
+    ports:
+      - "5418:5432"
