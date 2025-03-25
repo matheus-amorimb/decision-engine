@@ -26,14 +26,14 @@ class CreateOrUpdateBlockRuleSchema(BaseModel):
     operator: ConditionCriteria
     value: Optional[str] = None
     next_block_id: Optional[int] = None
-    next_block_temp_id: Optional[int] = None
+    next_block_temp_id: Optional[str] = None
 
 
 class CreateOrUpdateBlockSchema(BaseModel):
     id: Optional[int] = None
-    temp_id: Optional[int] = None
+    temp_id: Optional[str] = None
     type: BlockType
     decision_value: Optional[str] = None
     next_block_id: Optional[int] = None
-    next_block_temp_id: Optional[int] = None
+    next_block_temp_id: Optional[str] = None
     next_block_rules: Optional[List[CreateOrUpdateBlockRuleSchema]] = []
