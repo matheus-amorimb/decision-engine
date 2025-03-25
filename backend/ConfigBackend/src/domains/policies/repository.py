@@ -1,3 +1,4 @@
+from typing import List
 from sqlalchemy import select
 from sqlalchemy.orm import joinedload, selectinload
 
@@ -10,6 +11,11 @@ class PolicyRepository(BaseRepository):
         super().__init__(db_session)
         self.model = Policy
         self.db_session = db_session
+
+    async def get_all(self) -> List[Policy]:
+        db_policies = await self.db_session.scalars(select(self.model))
+
+        return db_policies
 
     async def get_by_name(self, name: str) -> Policy:
         db_policy = await self.db_session.scalar(

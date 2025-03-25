@@ -9,7 +9,12 @@ from src.domains.blocks.schemas import (
 )
 from src.domains.policies.models import Block, BlockRule, BlockType, Policy
 from src.domains.policies.repository import PolicyRepository
-from src.domains.policies.schemas import CreatePolicySchema, PolicySchema
+from src.domains.policies.schemas import (
+    CreatePolicySchema,
+    GetPolicySchema,
+    PolicySchema,
+    UpdatePolicySchema,
+)
 from src.domains.policies.utils import policy_model_to_schema
 from src.domains.policies.validations import validate_policy_flow
 from src.exceptions import (
@@ -27,6 +32,11 @@ class PolicyService:
 
         self.temp_id_to_id = {}
 
+    async def get_policies(self) -> List[GetPolicySchema]:
+        result = await self.policy_repository.get_all()
+
+        return [policy_model_to_schema(policy) for policy in result]
+
     async def get_policy_by_id(self, policy_id: int) -> Policy:
         result = await self.policy_repository.get_by_id(Policy, policy_id)
         if not result:
@@ -34,9 +44,7 @@ class PolicyService:
 
         return result
 
-    async def get_policy_by_id_with_blocks(
-        self, policy_id: int
-    ) -> PolicySchema:
+    async def get_policy_by_id_with_flow(self, policy_id: int) -> PolicySchema:
         result = await self.policy_repository.get_by_id_with_blocks(policy_id)
 
         if not result:
@@ -47,23 +55,20 @@ class PolicyService:
     async def create_policy(self, policy_schema: CreatePolicySchema) -> int:
         async with self.session.begin():
             try:
-                existing_policy = await self.policy_repository.get_by_name(
-                    policy_schema.name.lower()
+                # Save new policy
+                new_policy = await self.policy_repository.create(
+                    Policy(policy_schema.name)
                 )
 
-                # if existing_policy:
-                # raise ConflictException(f"policy_name_{policy.name}_already_in_use")
+                if len(policy_schema.flow) == 0:
+                    return new_policy.id
 
+                # Validate flow
                 policy_validation = validate_policy_flow(policy_schema.flow)
                 if not policy_validation.is_valid:
                     raise PolicyFlowValidationException(
                         policy_validation.errors
                     )
-
-                # Save new policy
-                new_policy = await self.policy_repository.create(
-                    Policy(policy_schema.name)
-                )
 
                 # Save new blocks
                 await self.handle_save_new_blocks(
@@ -78,21 +83,71 @@ class PolicyService:
 
         return new_policy.id
 
+    async def update_policy(self, policy_schema: UpdatePolicySchema) -> int:
+        async with self.session.begin():
+            try:
+                policy_update = await self.policy_repository.get_by_id(
+                    Policy, policy_schema.id
+                )
+
+                if not policy_update:
+                    raise ResourceNotFoundException(
+                        'Policy to be updated not found'
+                    )
+
+                """
+                You're about to witness a crime, so proceed at your own risk...
+                Due to time constraints, I've temporarily decided to apply this (crime) of a solution to handle cases where a user updates a policy's flow. 
+                Instead of updating only the modified blocks, adding new ones, and removing deleted ones, I'm straight-up deleting all blocks for the given policy and recreating them from scratch. 
+                This saves me a lot of time for now and also makes it easier on the frontend when retrieving the policy's flow, 
+                since doing it this way means I don't have to worry about keeping the original block IDs in the frontend.
+                
+                Unfortunately, if you're reading this, it means I didn't have enough time to clean up the crime scene. 
+                Either way, let this be a record that this is by no means the correct way to do this.
+                """
+
+                await self.block_repository.delete_blocks_by_policy_id(
+                    policy_schema.id
+                )
+
+                if len(policy_schema.flow) == 0:
+                    return policy_update.id
+
+                # Validate flow
+                policy_validation = validate_policy_flow(policy_schema.flow)
+                if not policy_validation.is_valid:
+                    raise PolicyFlowValidationException(
+                        policy_validation.errors
+                    )
+
+                # Save new blocks
+                await self.handle_save_new_blocks(
+                    policy_update.id, policy_schema.flow
+                )
+
+                # Save new rules
+                await self.handle_save_new_rules(policy_schema)
+
+            except Exception as e:
+                raise e
+
+        return policy_update.id
+
     async def handle_save_new_blocks(
         self, policy_id: int, blocks_schemas: List[CreateOrUpdateBlockSchema]
     ):
         start_block_id = None
         start_block_next_block_temp_id = None
         for block_schema in blocks_schemas:
-            """
-            Start block are the only one that holds a reference to a temp_id besides the rules.
-            So, we must keep tracking of this block so we can updated it once all the blocks are created.
-            """
             block_entity = create_or_updated_block_schema_to_entity(
                 policy_id, block_schema
             )
             new_block = await self.block_repository.create(block_entity)
 
+            """
+            Start block are the only one that holds a reference to a temp_id besides the rules.
+            So, we must keep tracking of this block so we can updated it once all the blocks are created.
+            """
             if block_schema.type == BlockType.START:
                 start_block_id = new_block.id
                 start_block_next_block_temp_id = (
