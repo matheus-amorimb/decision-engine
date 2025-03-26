@@ -1,8 +1,7 @@
 from typing import List
 from sqlalchemy import select
-from sqlalchemy.orm import joinedload, selectinload
 
-from src.domains.policies.models import Block, Policy
+from src.domains.policies.models import Policy
 from src.repository import BaseRepository
 
 
@@ -28,5 +27,8 @@ class PolicyRepository(BaseRepository):
         db_policy = await self.db_session.scalar(
             select(self.model).where(self.model.id == id)
         )
+
+        if db_policy:
+            db_policy.blocks.sort(key=lambda block: block.id)
 
         return db_policy

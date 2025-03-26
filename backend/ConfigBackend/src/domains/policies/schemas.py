@@ -20,12 +20,11 @@ class PolicySchema(BaseModel):
 
 class CreatePolicySchema(BaseModel):
     name: str
-    flow: List[CreateOrUpdateBlockSchema] = []
+    flow: Optional[List[CreateOrUpdateBlockSchema]] = []
 
 
 class UpdatePolicySchema(BaseModel):
     id: int
-    name: Optional[str]
     flow: List[CreateOrUpdateBlockSchema] = []
 
 

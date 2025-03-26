@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import Annotated, List
+from typing import Annotated, Dict, List
 
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
@@ -48,6 +48,30 @@ async def get_policy_with_flow(policy_id: int, session: DbSession):
     policy_with_blocks = await service.get_policy_by_id_with_flow(policy_id)
 
     return policy_with_blocks
+
+
+@router.get(
+    '/{policy_id}/variables',
+    status_code=HTTPStatus.OK,
+    response_model=List[str],
+)
+async def get_policy_with_flow(policy_id: int, session: DbSession):
+    service = PolicyService(session)
+    policy_variables = await service.get_policy_variables(policy_id)
+
+    return policy_variables
+
+
+@router.post(
+    '/{policy_id}/decision', status_code=HTTPStatus.OK, response_model=str
+)
+async def get_policy_decision(
+    policy_id: int, data: Dict[str, str], session: DbSession
+):
+    service = PolicyService(session)
+    policy_result = await service.get_flow_decision(policy_id, data)
+
+    return policy_result
 
 
 @router.post('/', status_code=HTTPStatus.CREATED, response_model=PolicySchema)
