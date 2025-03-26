@@ -65,6 +65,9 @@ class Block:
         init=False, lazy='selectin', repr=False
     )
 
+    position_x: Mapped[float] = mapped_column(nullable=True, default=None)
+    position_y: Mapped[float] = mapped_column(nullable=True, default=None)
+
     decision_value: Mapped[Optional[str]] = mapped_column(
         nullable=True, default=None
     )
@@ -74,7 +77,10 @@ class Block:
     )
 
     next_block_rules: Mapped[List['BlockRule']] = relationship(
-        init=False, lazy='selectin', foreign_keys='BlockRule.current_block_id', cascade="all, delete-orphan"
+        init=False,
+        lazy='selectin',
+        foreign_keys='BlockRule.current_block_id',
+        cascade='all, delete-orphan',
     )
 
 
@@ -93,5 +99,9 @@ class BlockRule:
         init=False, server_default=func.now()
     )
 
-    current_block_id: Mapped[int] = mapped_column(ForeignKey('blocks.id', ondelete="CASCADE"))
-    next_block_id: Mapped[int] = mapped_column(ForeignKey('blocks.id', ondelete="CASCADE"))
+    current_block_id: Mapped[int] = mapped_column(
+        ForeignKey('blocks.id', ondelete='CASCADE')
+    )
+    next_block_id: Mapped[int] = mapped_column(
+        ForeignKey('blocks.id', ondelete='CASCADE')
+    )

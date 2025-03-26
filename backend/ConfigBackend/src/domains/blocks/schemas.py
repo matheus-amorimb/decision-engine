@@ -19,6 +19,8 @@ class BlockSchema(BaseModel):
     decision_value: Optional[str] = None
     next_block_id: Optional[int] = None
     next_block_rules: Optional[List[BlockRuleSchema]] = []
+    position_x: Optional[float] = None
+    position_y: Optional[float] = None
 
 
 class CreateOrUpdateBlockRuleSchema(BaseModel):
@@ -37,3 +39,5 @@ class CreateOrUpdateBlockSchema(BaseModel):
     next_block_id: Optional[int] = None
     next_block_temp_id: Optional[str] = None
     next_block_rules: Optional[List[CreateOrUpdateBlockRuleSchema]] = []
+    position_x: Optional[float] = None
+    position_y: Optional[float] = None
