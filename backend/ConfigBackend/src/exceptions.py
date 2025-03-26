@@ -16,7 +16,7 @@ class ResourceNotFoundException(BaseAppException):
 
 
 class ValidationException(BaseAppException):
-    def __init__(self, error='Not found', status_code=400):
+    def __init__(self, error='Bad request', status_code=400):
         super().__init__(error, status_code)
 
 

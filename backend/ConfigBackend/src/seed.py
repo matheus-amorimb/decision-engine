@@ -34,7 +34,9 @@ async def create_inital_data():
                 await session.flush()
 
                 # Block Rules
-                block_rule_1 = BlockRule('age', 'GREATER_OR_EQUAL_THAN', '18', 2, 3)
+                block_rule_1 = BlockRule(
+                    'age', 'GREATER_OR_EQUAL_THAN', '18', 2, 3
+                )
                 block_rule_2 = BlockRule('age', 'ELSE', '18', 2, 4)
 
                 session.add(block_rule_1)
