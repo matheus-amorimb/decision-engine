@@ -113,6 +113,7 @@ class PolicyService:
 
         return new_policy.id
 
+
     async def update_policy(self, policy_schema: UpdatePolicySchema) -> int:
         async with self.session.begin():
             try:
@@ -122,7 +123,7 @@ class PolicyService:
 
                 if not policy_update:
                     raise ResourceNotFoundException(
-                        'Policy to be updated not found'
+                        'policy_not_found'
                     )
 
                 """
@@ -170,7 +171,7 @@ class PolicyService:
 
         for variable in policy_variables:
             if variable not in data.keys():
-                raise ValidationException(f'{variable}_is_missing')
+                raise ValidationException(f'variable_in_decision_is_missing')
 
         policy = await self.policy_repository.get_by_id_with_blocks(policy_id)
         policy_decision = calculate_flow_decision(policy.blocks, data)

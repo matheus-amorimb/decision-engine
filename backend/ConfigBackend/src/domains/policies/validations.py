@@ -4,11 +4,9 @@ from src.domains.blocks.schemas import (
     CreateOrUpdateBlockRuleSchema,
     CreateOrUpdateBlockSchema,
 )
-from src.domains.blocks.utils import block_model_to_schema
-from src.domains.policies.models import BlockType, ConditionCriteria, Policy
+from src.domains.policies.models import BlockType, ConditionCriteria
 from src.domains.policies.schemas import (
     FlowValidationError,
-    PolicySchema,
     PolicyValidation,
 )
 
