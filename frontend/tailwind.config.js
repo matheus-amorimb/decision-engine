@@ -15,7 +15,8 @@ const N900 = "#101840";
 
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
+    darkMode: ["class"],
+    content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
     "./public/*.svg",
@@ -34,116 +35,170 @@ export default {
         ":merge(.group):focus &",
       ]);
     }),
-  ],
+      require("tailwindcss-animate")
+],
   theme: {
-    extend: {
-      colors: {
-        primary: {
-          50: "#f1fcfa",
-          100: "#d1f6f1",
-          200: "#a2ede5",
-          300: "#71ddd6",
-          400: "#3ec3be",
-          500: "#25a7a5",
-          600: "#1b8586",
-          700: "#196b6c",
-          800: "#195456",
-          900: "#194748",
-          950: "#08292b",
-        },
-        mirage: {
-          50: "#f0f3fa",
-          100: "#e5eaf5",
-          200: "#c9d4e8",
-          300: "#9db3d8",
-          400: "#6b8cc2",
-          500: "#496fa7",
-          600: "#37568b",
-          700: "#2d4571",
-          800: "#28395d",
-          900: "#263450",
-          950: "#121826",
-        },
-        "darker-primary": "#273653",
-        white: "#FFFAFF",
-        "light-gray": "#F2F5F9",
-        N: {
-          0: N0,
-          50: N50,
-          75: N75,
-          100: N100,
-          200: N200,
-          300: N300,
-          400: N400,
-          500: N500,
-          600: N600,
-          700: N700,
-          800: N800,
-          900: N900,
-        },
-        T: {
-          50: "#EDFAFA",
-          100: "#D5F5F6",
-          200: "#BEDAF0",
-          300: "#B2D0EC",
-          400: "#16BDCA",
-          500: "#0694A2",
-          600: "#036672",
-          700: "#024D4A",
-        },
-        Y: {
-          50: "#FFF9F0",
-          100: "#FFF2D9",
-          200: "#FFE6B3",
-          300: "#F1D4B3",
-          350: "#e2cdb0",
-          400: "#FFB02E",
-          500: "#E68A00",
-          600: "#B36B00",
-        },
-        G: {
-          50: "#F7FDF9",
-          100: "#EEFBF2",
-          200: "#D5F6E1",
-          300: "#A8EFD0",
-          400: "#5CE2B0",
-          500: "#47A380",
-          550: "#56b28f",
-          600: "#2F6A53",
-        },
-      },
-      text: {
-        muted: N700,
-        normal: N800,
-        headline: N900,
-      },
-      icons: {
-        muted: N500,
-        normal: N600,
-      },
-      border: {
-        muted: N300,
-        normal: N400,
-      },
-      separator: N300,
-      background: {
-        white: N0,
-        lighter: N50,
-        light: N75,
-        normal: N100,
-        darker: N200,
-      },
-      boxShadow: {
-        small: "0 5px 9px 0px",
-      },
-      strokeWidth: {
-        3: "3",
-        4: "4",
-        5: "5",
-      },
-      fontSize: {
-        xsm: "0.6rem",
-      },
-    },
+  	extend: {
+  		colors: {
+  			primary: {
+  				'50': '#f1fcfa',
+  				'100': '#d1f6f1',
+  				'200': '#a2ede5',
+  				'300': '#71ddd6',
+  				'400': '#3ec3be',
+  				'500': '#25a7a5',
+  				'600': '#1b8586',
+  				'700': '#196b6c',
+  				'800': '#195456',
+  				'900': '#194748',
+  				'950': '#08292b',
+  				DEFAULT: 'hsl(var(--primary))',
+  				foreground: 'hsl(var(--primary-foreground))'
+  			},
+  			mirage: {
+  				'50': '#f0f3fa',
+  				'100': '#e5eaf5',
+  				'200': '#c9d4e8',
+  				'300': '#9db3d8',
+  				'400': '#6b8cc2',
+  				'500': '#496fa7',
+  				'600': '#37568b',
+  				'700': '#2d4571',
+  				'800': '#28395d',
+  				'900': '#263450',
+  				'950': '#121826'
+  			},
+  			'darker-primary': '#273653',
+  			white: '#FFFAFF',
+  			'light-gray': '#F2F5F9',
+  			N: {
+  				'0': 'N0',
+  				'50': 'N50',
+  				'75': 'N75',
+  				'100': 'N100',
+  				'200': 'N200',
+  				'300': 'N300',
+  				'400': 'N400',
+  				'500': 'N500',
+  				'600': 'N600',
+  				'700': 'N700',
+  				'800': 'N800',
+  				'900': 'N900'
+  			},
+  			T: {
+  				'50': '#EDFAFA',
+  				'100': '#D5F5F6',
+  				'200': '#BEDAF0',
+  				'300': '#B2D0EC',
+  				'400': '#16BDCA',
+  				'500': '#0694A2',
+  				'600': '#036672',
+  				'700': '#024D4A'
+  			},
+  			Y: {
+  				'50': '#FFF9F0',
+  				'100': '#FFF2D9',
+  				'200': '#FFE6B3',
+  				'300': '#F1D4B3',
+  				'350': '#e2cdb0',
+  				'400': '#FFB02E',
+  				'500': '#E68A00',
+  				'600': '#B36B00'
+  			},
+  			G: {
+  				'50': '#F7FDF9',
+  				'100': '#EEFBF2',
+  				'200': '#D5F6E1',
+  				'300': '#A8EFD0',
+  				'400': '#5CE2B0',
+  				'500': '#47A380',
+  				'550': '#56b28f',
+  				'600': '#2F6A53'
+  			},
+  			background: 'hsl(var(--background))',
+  			foreground: 'hsl(var(--foreground))',
+  			card: {
+  				DEFAULT: 'hsl(var(--card))',
+  				foreground: 'hsl(var(--card-foreground))'
+  			},
+  			popover: {
+  				DEFAULT: 'hsl(var(--popover))',
+  				foreground: 'hsl(var(--popover-foreground))'
+  			},
+  			secondary: {
+  				DEFAULT: 'hsl(var(--secondary))',
+  				foreground: 'hsl(var(--secondary-foreground))'
+  			},
+  			muted: {
+  				DEFAULT: 'hsl(var(--muted))',
+  				foreground: 'hsl(var(--muted-foreground))'
+  			},
+  			accent: {
+  				DEFAULT: 'hsl(var(--accent))',
+  				foreground: 'hsl(var(--accent-foreground))'
+  			},
+  			destructive: {
+  				DEFAULT: 'hsl(var(--destructive))',
+  				foreground: 'hsl(var(--destructive-foreground))'
+  			},
+  			border: 'hsl(var(--border))',
+  			input: 'hsl(var(--input))',
+  			ring: 'hsl(var(--ring))',
+  			chart: {
+  				'1': 'hsl(var(--chart-1))',
+  				'2': 'hsl(var(--chart-2))',
+  				'3': 'hsl(var(--chart-3))',
+  				'4': 'hsl(var(--chart-4))',
+  				'5': 'hsl(var(--chart-5))'
+  			},
+  			sidebar: {
+  				DEFAULT: 'hsl(var(--sidebar-background))',
+  				foreground: 'hsl(var(--sidebar-foreground))',
+  				primary: 'hsl(var(--sidebar-primary))',
+  				'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
+  				accent: 'hsl(var(--sidebar-accent))',
+  				'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
+  				border: 'hsl(var(--sidebar-border))',
+  				ring: 'hsl(var(--sidebar-ring))'
+  			}
+  		},
+  		text: {
+  			muted: 'N700',
+  			normal: 'N800',
+  			headline: 'N900'
+  		},
+  		icons: {
+  			muted: 'N500',
+  			normal: 'N600'
+  		},
+  		border: {
+  			muted: 'N300',
+  			normal: 'N400'
+  		},
+  		separator: 'N300',
+  		background: {
+  			white: 'N0',
+  			lighter: 'N50',
+  			light: 'N75',
+  			normal: 'N100',
+  			darker: 'N200'
+  		},
+  		boxShadow: {
+  			'block-glow': '0 0 15px rgba(0, 123, 255, 0.7)'
+  		},
+  		strokeWidth: {
+  			'3': '3',
+  			'4': '4',
+  			'5': '5'
+  		},
+  		fontSize: {
+  			xsm: '0.6rem'
+  		},
+  		borderRadius: {
+  			lg: 'var(--radius)',
+  			md: 'calc(var(--radius) - 2px)',
+  			sm: 'calc(var(--radius) - 4px)'
+  		}
+  	}
   },
 };
