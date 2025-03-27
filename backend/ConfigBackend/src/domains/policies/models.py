@@ -17,6 +17,7 @@ class BlockType(Enum):
 
 class ConditionCriteria(Enum):
     EQUAL = '='
+    DIFFERENT = '!='
     LOWER_THAN = '<'
     LOWER_OR_EQUAL_THAN = '<='
     GREATER_THAN = '>'
