@@ -28,6 +28,10 @@ class UpdatePolicySchema(BaseModel):
     flow: List[CreateOrUpdateBlockSchema] = []
 
 
+class PolicyDecision(BaseModel):
+    decision: str
+
+
 class FlowValidationError(Enum):
     MISSING_START_BLOCK = 'Flow is missing a start block.'
     MORE_THAN_ONE_START_BLOCK = 'Flow has more than one start block.'

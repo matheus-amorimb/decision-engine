@@ -20,6 +20,7 @@ from src.domains.policies.repository import PolicyRepository
 from src.domains.policies.schemas import (
     CreatePolicySchema,
     GetPolicySchema,
+    PolicyDecision,
     PolicySchema,
     UpdatePolicySchema,
 )
@@ -162,9 +163,9 @@ class PolicyService:
 
         return policy_update.id
 
-    async def get_flow_decision(
+    async def get_policy_decision(
         self, policy_id: int, data: Dict[str, str]
-    ) -> str:
+    ) -> PolicyDecision:
         policy_variables = await self.get_policy_variables(policy_id)
 
         for variable in policy_variables:
@@ -172,9 +173,9 @@ class PolicyService:
                 raise ValidationException(f'{variable}_is_missing')
 
         policy = await self.policy_repository.get_by_id_with_blocks(policy_id)
-        policy_result = calculate_flow_decision(policy.blocks, data)
+        policy_decision = calculate_flow_decision(policy.blocks, data)
 
-        return policy_result
+        return PolicyDecision(decision=policy_decision)
 
     async def __handle_save_new_blocks(
         self, policy_id: int, blocks_schemas: List[CreateOrUpdateBlockSchema]

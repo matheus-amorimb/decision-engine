@@ -8,6 +8,7 @@ from src.database import get_session
 from src.domains.policies.schemas import (
     CreatePolicySchema,
     GetPolicySchema,
+    PolicyDecision,
     PolicySchema,
     UpdatePolicySchema,
 )
@@ -63,13 +64,15 @@ async def get_policy_with_flow(policy_id: int, session: DbSession):
 
 
 @router.post(
-    '/{policy_id}/decision', status_code=HTTPStatus.OK, response_model=str
+    '/{policy_id}/decision',
+    status_code=HTTPStatus.OK,
+    response_model=PolicyDecision,
 )
 async def get_policy_decision(
     policy_id: int, data: Dict[str, str], session: DbSession
 ):
     service = PolicyService(session)
-    policy_result = await service.get_flow_decision(policy_id, data)
+    policy_result = await service.get_policy_decision(policy_id, data)
 
     return policy_result
 
