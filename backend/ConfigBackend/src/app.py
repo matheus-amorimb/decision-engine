@@ -5,7 +5,12 @@ from fastapi.middleware.cors import CORSMiddleware
 from src.domains.policies.router import router as policies_router
 from src.exceptions import BaseAppException
 
-app = FastAPI()
+app = FastAPI(
+    title='[Decision Engine] ConfigBackend',
+    description='Backend service for managing and storing decision policies in a no-code environment.',
+    version='1.0.0',
+    contact={'name': 'Matheus', 'email': 'mbatista.sarti@gmail.com'},
+)
 
 app.add_middleware(
     CORSMiddleware,
