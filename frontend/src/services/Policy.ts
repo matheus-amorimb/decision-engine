@@ -1,6 +1,6 @@
-import { FlowValidationError, PolicyDecisionProtocol, PolicyProtocol, UpdatePolicyProtocol } from "@src/protocols/policy"
+import { PolicyDecisionProtocol, PolicyProtocol, UpdatePolicyProtocol } from "@src/protocols/policy"
 import ApiService from "@src/services/Api"
-import { AxiosError } from "axios"
+import ErrorService from "@src/services/Error"
 
 class PolicyService {
   
@@ -12,10 +12,7 @@ class PolicyService {
       return response.data as PolicyProtocol
       
     } catch (error) {
-      
-      console.error("Error fetching policy:", error)
-      throw error
-      
+      ErrorService.handleApiError(error)
     }
   }
 
@@ -29,10 +26,7 @@ class PolicyService {
       return policies
 
     } catch (error) {
-      
-      console.error("Error fetching policies:", error)
-      throw error
-
+      ErrorService.handleApiError(error)
     }
   }
 
@@ -45,9 +39,7 @@ class PolicyService {
       return variables
 
     } catch (error) {
-      console.error("Error fetching policies:", error)
-      throw error
-
+      ErrorService.handleApiError(error)
     }
   }
 
@@ -62,9 +54,7 @@ class PolicyService {
       return policy
 
     } catch (error) {
-      
-      console.error("Error creating policy:", error)
-      throw error
+      ErrorService.handleApiError(error)
     }
   }
 
@@ -75,15 +65,7 @@ class PolicyService {
       return response.data
 
     } catch (error) {
-      if (error instanceof AxiosError) {
-        const validationErrors = error.response?.data as { error: FlowValidationError[] }
-    
-        if (validationErrors?.error?.length) {
-          throw new Error(validationErrors.error.map(err => err.message).join(", "))
-        }
-      } 
-    
-      throw new Error("An unexpected error occurred")
+      ErrorService.handleApiError(error)
     }
   }
 
@@ -94,8 +76,7 @@ class PolicyService {
       return response.data as PolicyDecisionProtocol
 
     } catch (error) {
-
-      throw new Error("An unexpected error occurred")
+      ErrorService.handleApiError(error)
     }
   }
 
