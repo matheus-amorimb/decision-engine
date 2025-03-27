@@ -5,7 +5,7 @@ import { Button } from "@src/components/ui/button"
 import { Trash as TrashIcon, X as ElseIcon} from "lucide-react"
 import { Input } from "@src/components/ui/input"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@src/components/ui/select"
-import { Card, CardDescription, CardTitle } from "@src/components/ui/card"
+import { Card, CardDescription } from "@src/components/ui/card"
 import { ConditionOperators } from "@src/protocols/policy"
 import { useEffect, useState } from "react"
 import toast from "react-hot-toast"
@@ -22,20 +22,15 @@ export type ConditionBlockData = {
   rule?: BlockRule
 }
 
-type HandleId = "source-condition" | "source-else" 
+// type HandleId = "source-condition" | "source-else" 
 
 const conditionOperators: ConditionOperators[] = ["<", "<=", "=", "!=", ">=", ">"];
 
 export function ConditionBlock({ id, data, selected }: NodeProps<ConditionBlockData>){
-  const { setNodes, getNodes } = useReactFlow()
   const edges = useStore((state) => state.edges)
+  const { setNodes, getNodes } = useReactFlow()
   const [isElseHandleConnected, setIsElseHandleConnected] = useState<boolean>(false)
   const [isConditionHandleConnected, setIsConditionHandleConnected] = useState<boolean>(false)
-
-  // const isHandleConnected = (handleId: HandleId) => {
-  //   console.log("checking isHandleConnected....")
-  //   return getEdges().some(edge => edge.source === id && edge.sourceHandle === handleId)
-  // }
 
   const handleDeleteBlock = () => {
     const hasEdgesConnected = edges.find(edge => edge.target === id)
@@ -62,7 +57,6 @@ export function ConditionBlock({ id, data, selected }: NodeProps<ConditionBlockD
   }
 
   useEffect(() => {
-    console.log("vai se fuder")
     const conditionHandle = edges.some(edge => edge.source === id && edge.sourceHandle === "source-condition")
     const elseHandle = edges.some(edge => edge.source === id && edge.sourceHandle === "source-else")
 
@@ -82,7 +76,6 @@ export function ConditionBlock({ id, data, selected }: NodeProps<ConditionBlockD
           position={Position.Left}
           isConnectable={true}
           className="node-handle-top"
-          // style={{ left: '50%' }} 
         />
         <div className="flex flex-col gap-10">
           <div className="flex flex-row">
