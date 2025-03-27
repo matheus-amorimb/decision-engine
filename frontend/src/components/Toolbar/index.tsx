@@ -52,10 +52,8 @@ export default function Toolbar() {
       toast.success("Nice! Flow saved successfully!")
 
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : "Sorry, an unexpected error occurred :(";
-      toast.error(errorMessage)
+      toast.error(error?.message || "Sorry, an unexpected error occurred :(")
       return
-
     } 
   }
   

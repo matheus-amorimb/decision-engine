@@ -16,17 +16,6 @@ export default function DecisionPage() {
 
   const form = useForm()
 
-  useEffect((() => {
-    const fetchData = async () => {
-      const policies = await PolicyService.getAllPolicies()
-      if (policies) {
-        setPolicies(policies)
-      }
-    }
-    
-    fetchData()
-  }), [])
-
   const onSubmitForm = async (values: any) => {
     try {
       const policyDecision = await PolicyService.getPolicyDecision(Number(policyIdSelected), values)
@@ -35,7 +24,6 @@ export default function DecisionPage() {
       toast.success("Success! The decision has been calculated.")
       
     } catch (error) {
-      console.log(error)
       toast.error(error.message || "Oops! Something went wrong. Please try again.")
     }
   }
@@ -43,15 +31,21 @@ export default function DecisionPage() {
   const handleOnSelectPolicy = async (policyId: number) => {
     try {
       const variables = await PolicyService.getPolicyVariables(policyId)
+      
+      setPolicyVariables(variables)
+      setPolicyDecision(null)
+      
+      /*
+      If there are no variables, it means the policy flow consists only of a start block 
+      and a result block. In this case, there are no inputs required to determine the result, 
+      so we can directly fetch the decision.
+      */
       if (variables.length === 0) {
         const policyDecision = await PolicyService.getPolicyDecision(Number(policyId), {})
         setPolicyDecision(policyDecision.decision)
         toast.success("Success! The decision has been calculated.")
-
-      } else {
-        setPolicyVariables(variables)
-        setPolicyDecision(null)
       }
+
     } catch {
       toast.error("Oops! Something went wrong. Please try again.")
     }
@@ -65,6 +59,17 @@ export default function DecisionPage() {
       }, {} as Record<string, string>)
     )
   }, [policyIdSelected, form.reset, policyVariables])
+
+  useEffect((() => {
+    const fetchData = async () => {
+      const policies = await PolicyService.getAllPolicies()
+      if (policies) {
+        setPolicies(policies)
+      }
+    }
+    
+    fetchData()
+  }), [])
 
   return (
     <div className="flex flex-col items-center w-[75%] p-8 gap-14 bg-zinc-500">
