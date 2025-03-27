@@ -1,6 +1,6 @@
 import PolicyService from "@src/services/Policy"
 import { useCallback, useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import ReactFlow, {
 	Background,
 	BackgroundVariant,
@@ -21,6 +21,7 @@ import { edgeTypeToEdge } from "@src/components/Edges"
 import { addEndMarker } from "@src/components/Edges/utils"
 import Toolbar from "@src/components/Toolbar"
 import { buildNodesAndEdgesFromPolicy } from "@src/utils/policy"
+import toast from "react-hot-toast"
 
 const initialNodes: Node[] = [
 	{
@@ -39,8 +40,9 @@ function Flow() {
 	const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes)
 	const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges)
 	const [connectionLineStyle, setConnectionLineStyle] = useState({})
-	const [isDataLoaded, setIsDataLoaded] = useState(false)
+	const [isDataLoaded, setIsDataLoaded] = useState<boolean>(false)
 
+	const navigate = useNavigate()
 
 	const onConnect = useCallback((newConnection: Connection) => {
 		// Prevent a block from connecting to itself
@@ -62,14 +64,20 @@ function Flow() {
 
   useEffect(() => {
     const fetchPolicy = async () => {
-      const policy = await PolicyService.getPolicyById(Number(id))
-      if (policy.flow.length > 0) {
-        const { nodes, edges } = buildNodesAndEdgesFromPolicy(policy)
-        setNodes(nodes)
-        setEdges(edges)
-        setIsDataLoaded(true)
-      }
-    }
+			try {
+				const policy = await PolicyService.getPolicyById(Number(id))
+				if (policy.flow.length > 0) {
+					const { nodes, edges } = buildNodesAndEdgesFromPolicy(policy)
+					setNodes(nodes)
+					setEdges(edges)
+					setIsDataLoaded(true)
+				}
+			} catch (error) {
+				toast.error("Sorry, we couldn't find the page you're looking for. It may have been moved or no longer exists.")
+				navigate("/policies")
+			}
+    }	
+		
     fetchPolicy()
   }, [id])
 
