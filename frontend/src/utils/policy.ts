@@ -158,6 +158,7 @@ export const buildNodesAndEdgesFromPolicy = (policy: PolicyProtocol): { nodes: N
         type: "start",
         position: nodePosition,
         data: {
+          title: policy.name,
           next_block_temp_id: nextBlockTempId
         }
       }
