@@ -1,4 +1,4 @@
-import { Handle, NodeProps, Position, useReactFlow, useStore } from "reactflow"
+import { Handle, NodeProps, Position, useReactFlow } from "reactflow"
 import { BlockWrapper } from "@src/components/Blocks/BlockWrapper"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@radix-ui/react-tooltip"
 import { Button } from "@src/components/ui/button"
@@ -27,13 +27,12 @@ export type ConditionBlockData = {
 const conditionOperators: ConditionOperators[] = ["<", "<=", "=", "!=", ">=", ">"];
 
 export function ConditionBlock({ id, data, selected }: NodeProps<ConditionBlockData>){
-  const edges = useStore((state) => state.edges)
-  const { setNodes, getNodes } = useReactFlow()
+  const { setNodes, getNodes, getEdges } = useReactFlow()
   const [isElseHandleConnected, setIsElseHandleConnected] = useState<boolean>(false)
   const [isConditionHandleConnected, setIsConditionHandleConnected] = useState<boolean>(false)
 
   const handleDeleteBlock = () => {
-    const hasEdgesConnected = edges.find(edge => edge.target === id)
+    const hasEdgesConnected = getEdges().find(edge => edge.target === id || edge.source === id)
     if (hasEdgesConnected) {
       toast.error("There are blocks connected to this one. Please remove them before deleting it.")
       return
@@ -57,13 +56,13 @@ export function ConditionBlock({ id, data, selected }: NodeProps<ConditionBlockD
   }
 
   useEffect(() => {
-    const conditionHandle = edges.some(edge => edge.source === id && edge.sourceHandle === "source-condition")
-    const elseHandle = edges.some(edge => edge.source === id && edge.sourceHandle === "source-else")
+    const conditionHandle = getEdges().some(edge => edge.source === id && edge.sourceHandle === "source-condition")
+    const elseHandle = getEdges().some(edge => edge.source === id && edge.sourceHandle === "source-else")
 
     setIsElseHandleConnected(elseHandle)
     setIsConditionHandleConnected(conditionHandle)
 
-  }, [edges, getNodes()]);
+  }, [getEdges(), getNodes()]);
 
   return(
     <>
