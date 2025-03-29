@@ -22,10 +22,35 @@ async def create_inital_data():
                 await session.flush()
 
                 # #Blocks
-                start_block = Block(BlockType.START, 1, None, next_block_id=2)
-                condition_block = Block(BlockType.CONDITION, 1, None)
-                decision_block_1 = Block(BlockType.RESULT, 1, '1000')
-                decision_block_2 = Block(BlockType.RESULT, 1, '2000')
+                start_block = Block(
+                    type=BlockType.START,
+                    policy_id=1,
+                    decision_value=None,
+                    next_block_id=2,
+                    position_x=0,
+                    position_y=0,
+                )
+                condition_block = Block(
+                    type=BlockType.CONDITION,
+                    policy_id=1,
+                    decision_value=None,
+                    position_x=500,
+                    position_y=0,
+                )
+                decision_block_1 = Block(
+                    type=BlockType.RESULT,
+                    policy_id=1,
+                    decision_value='APPROVED',
+                    position_x=800,
+                    position_y=-500,
+                )
+                decision_block_2 = Block(
+                    type=BlockType.RESULT,
+                    policy_id=1,
+                    decision_value='DENIED',
+                    position_x=800,
+                    position_y=500,
+                )
 
                 session.add(start_block)
                 session.add(condition_block)
@@ -42,6 +67,7 @@ async def create_inital_data():
                 session.add(block_rule_1)
                 session.add(block_rule_2)
                 await session.flush()
+
             except Exception as e:
                 raise e
 
