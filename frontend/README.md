@@ -1,4 +1,9 @@
-**# Frontend**
+# **Frontend**
+
+## Overview
+This frontend lets you create, visualize, and test automated decision policies with an intuitive flow builder. Define policies, connect logic blocks, and test decisions effortlessly—all in a sleek and interactive interface.
+
+Simple, fast, and (mostly) foolproof. 
 
 ## Tech Stack
 
