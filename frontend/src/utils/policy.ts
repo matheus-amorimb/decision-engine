@@ -10,20 +10,24 @@ export const buildPolicyFlow = (nodes: Node[], edges: Edge[]): CreateOrUpdateBlo
   let blocks: CreateOrUpdateBlockProtocol[] = []
 
   nodes.forEach((node) => {
-    
-    if (node.type === "start") {
-      const startBlock = buildStartBlockFromNode(node, edges)
-      blocks.push(startBlock)
-    }
-
-    if (node.type === "result") {
-      const decisionBlock = buildDecisionBlockFromNode(node)
-      blocks.push(decisionBlock)
-    }
-
-    if (node.type === "condition") {
-      const conditionBlock = buildConditionBlockFromNode(node, edges)
-      blocks.push(conditionBlock)
+    switch (node.type) {
+      case "start":
+        const startBlock = buildStartBlockFromNode(node, edges)
+        blocks.push(startBlock)
+        break
+      
+      case "result":
+        const decisionBlock = buildDecisionBlockFromNode(node)
+        blocks.push(decisionBlock)
+        break
+      
+      case "condition":
+        const conditionBlock = buildConditionBlockFromNode(node, edges)
+        blocks.push(conditionBlock)
+        break
+      
+      default:
+        break
     }
   })
 
@@ -127,6 +131,37 @@ const buildConditionRules = (conditionNode: Node<ConditionBlockData>, edges: Edg
   }
 
   return [conditionRule, elseRule]
+}
+
+export const buildNodesAndEdgesFromPolicy = (policy: PolicyProtocol): { nodes: Node[], edges: Edge[] } => {
+  let nodes: Node[] = []
+  let edges: Edge[] = []
+  let idToTempId: Record<number, string> = {}
+
+  policy.flow.forEach((block) => {
+    switch (block.type) {
+      case "start":
+        handleStartBlock(block, policy.name, idToTempId, nodes, edges)
+        break
+
+      case "condition":
+        handleConditionBlock(block, idToTempId, nodes, edges)
+        break
+
+      case "result":
+        handleResultBlock(block, idToTempId, nodes)
+        break
+
+      default:
+        console.error(`Unknown block type: ${block.type}`)
+        break
+    }
+  })
+
+  return {
+    nodes,
+    edges
+  }
 }
 
 const handleStartBlock = (
@@ -248,37 +283,6 @@ const handleResultBlock = (
   idToTempId[block.id] = tempId
 
   nodes.push(resultNode)
-}
-
-export const buildNodesAndEdgesFromPolicy = (policy: PolicyProtocol): { nodes: Node[], edges: Edge[] } => {
-  let nodes: Node[] = []
-  let edges: Edge[] = []
-  let idToTempId: Record<number, string> = {}
-
-  policy.flow.forEach((block) => {
-    switch (block.type) {
-      case "start":
-        handleStartBlock(block, policy.name, idToTempId, nodes, edges)
-        break
-
-      case "condition":
-        handleConditionBlock(block, idToTempId, nodes, edges)
-        break
-
-      case "result":
-        handleResultBlock(block, idToTempId, nodes)
-        break
-
-      default:
-        console.error(`Unknown block type: ${block.type}`)
-        break
-    }
-  })
-
-  return {
-    nodes,
-    edges
-  }
 }
 
 export const generateUniqueNodeId = () => {
