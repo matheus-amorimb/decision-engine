@@ -36,7 +36,7 @@ You’ve got three major pages to play with:
 
 ### **1. /policies (which you'll land on by default, like magic)**
 
-![Policies List](./assets/policies_list.png)
+![Policies List](../assets/policies_list.png)
 
 Here, you’ll see all the policies you’ve created (or none, if you’re just starting out). Click on any policy, and—voilà—a new tab opens, taking you straight to its decision flow.
 
@@ -46,7 +46,7 @@ Want to create a new policy? Hit that shiny blue button at the top, give it a me
 
 ### **2. /policy/:id**
 
-![Policy Flow](./assets/policy_flow.png)
+![Policy Flow](../assets/policy_flow.png)
 
 Welcome to the policy flow builder. Here’s what you need to know:
 
@@ -65,13 +65,13 @@ If your flow has inconsistencies—like loops, missing connections, or other cha
 
 ### **3. /decision**
 
-![Decision](./assets/decision.png)
+![Decision](../assets/decision.png)
 
 You built a policy. You designed its flow. Now what? Time to test it.
 
 Head over to **/decision**. You’ll find a dropdown listing all your policies. Pick one, and you’ll see a form with all the variables you set up earlier. Fill them out, hit submit, and watch your decision engine work its magic.
 
-![Decision Result](./assets/decision_result.png)
+![Decision Result](../assets/decision_result.png)
 
 Congratulations, big champ. You just built an automated decision system. Go flex.
 
