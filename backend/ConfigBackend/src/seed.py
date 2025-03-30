@@ -3,7 +3,13 @@ import asyncio
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
 
-from src.domains.policies.models import Block, BlockRule, BlockType, Policy
+from src.domains.policies.models import (
+    Block,
+    BlockRule,
+    BlockType,
+    ConditionCriteria,
+    Policy,
+)
 from src.settings import Settings
 
 engine = create_async_engine(Settings().DATABASE_URL)
@@ -60,9 +66,15 @@ async def create_inital_data():
 
                 # Block Rules
                 block_rule_1 = BlockRule(
-                    'age', 'GREATER_OR_EQUAL_THAN', '18', 2, 3
+                    'age',
+                    ConditionCriteria.GREATER_THAN_OR_EQUAL_TO,
+                    '18',
+                    2,
+                    3,
                 )
-                block_rule_2 = BlockRule('age', 'ELSE', '18', 2, 4)
+                block_rule_2 = BlockRule(
+                    'age', ConditionCriteria.ELSE, '18', 2, 4
+                )
 
                 session.add(block_rule_1)
                 session.add(block_rule_2)
