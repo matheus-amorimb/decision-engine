@@ -133,7 +133,8 @@ export default function DecisionPage() {
                                 <FormControl>
                                   <Input
                                     id={`${variable}`}
-                                    type="number" 
+                                    type="number"
+                                    step="any"
                                     className=" bg-white appearance-none [&::-webkit-inner-spin-button]:hidden [&::-webkit-outer-spin-button]:hidden"
                                     {...field}
                                   />
