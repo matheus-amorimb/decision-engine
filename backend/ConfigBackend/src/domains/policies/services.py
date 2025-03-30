@@ -113,7 +113,6 @@ class PolicyService:
 
         return new_policy.id
 
-
     async def update_policy(self, policy_schema: UpdatePolicySchema) -> int:
         async with self.session.begin():
             try:
@@ -122,9 +121,7 @@ class PolicyService:
                 )
 
                 if not policy_update:
-                    raise ResourceNotFoundException(
-                        'policy_not_found'
-                    )
+                    raise ResourceNotFoundException('policy_not_found')
 
                 """
                 You're about to witness a crime, so proceed at your own risk...

@@ -32,7 +32,9 @@ def policy_model_to_schema(policy: Policy) -> PolicySchema:
     )
 
 
-def calculate_flow_decision(flow: List[Block], input_data: Dict[str, str]) -> str:
+def calculate_flow_decision(
+    flow: List[Block], input_data: Dict[str, str]
+) -> str:
     def find_block_by_id(block_id: str) -> Block:
         return next((block for block in flow if block.id == block_id), None)
 
@@ -58,7 +60,7 @@ def calculate_flow_decision(flow: List[Block], input_data: Dict[str, str]) -> st
             ),
             None,
         )
-    
+
     # Normalize the input_data keys
     input_data_normalized = normalize_dict_keys(input_data)
 
@@ -76,5 +78,9 @@ def calculate_flow_decision(flow: List[Block], input_data: Dict[str, str]) -> st
 
     return current_block.decision_value
 
+
 def normalize_dict_keys(input_dict: Dict[str, str]) -> Dict[str, str]:
-    return {convert_spaces_to_underscores(key): value for key, value in input_dict.items()}
+    return {
+        convert_spaces_to_underscores(key): value
+        for key, value in input_dict.items()
+    }
