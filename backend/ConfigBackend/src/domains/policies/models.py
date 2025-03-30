@@ -19,9 +19,9 @@ class ConditionCriteria(Enum):
     EQUAL = '='
     DIFFERENT = '!='
     LOWER_THAN = '<'
-    LOWER_OR_EQUAL_THAN = '<='
+    LOWER_THAN_OR_EQUAL_TO = '<='
     GREATER_THAN = '>'
-    GREATER_OR_EQUAL_THAN = '>='
+    GREATER_THAN_OR_EQUAL_TO = '>='
     ELSE = 'else'
 
 
