@@ -49,7 +49,7 @@ def calculate_flow_decision(
 
                 input_value = input_data_normalized[rule_variable]
 
-                if rule_operator(input_value, rule_value):
+                if rule_operator(float(input_value), float(rule_value)):
                     return rule.next_block_id
 
         return next(
