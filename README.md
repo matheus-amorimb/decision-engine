@@ -32,7 +32,7 @@ You want to install and run this? Good choice. For setup and detailed usage inst
 - [Backend Guide](./backend/ConfigBackend/README.md)
 - [Frontend Guide](./frontend/README.md)
 
-### Docker Lifesaver
+### ❗Docker Lifesaver
 
 Don’t feel like going through a bunch of setup steps? No problem. There’s a perfectly functional docker-compose file right here that spins up everything—backend, frontend, and database.
 
