@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  decision_engine.db:
+    image: postgres:latest
+    container_name: decision_engine.db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=decision_engine_db
+    # Health check to ensure the database is ready before other services start
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+    restart: always
+    ports:
+      - "5418:5432"
+
+  frontend-app:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    command: ["npm", "run", "dev"]
+    environment:
+      - NODE_ENV=development
+
+  backend-app:
+    build:
+      context: ./backend/ConfigBackend
+      dockerfile: Dockerfile
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://postgres:postgres@decision_engine.db:5432/decision_engine_db
+      - PYTHONPATH=/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      decision_engine.db:
+        condition: service_healthy  # Ensures backend starts only when DB is ready
