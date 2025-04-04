@@ -41,3 +41,4 @@ Just run:
 ```sh
 docker-compose up -d
 ```
+And voilà! The app is up and running. Minimal effort, maximum results.
