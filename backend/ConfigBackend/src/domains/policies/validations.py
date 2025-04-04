@@ -5,10 +5,7 @@ from src.domains.blocks.schemas import (
     CreateOrUpdateBlockSchema,
 )
 from src.domains.policies.models import BlockType, ConditionCriteria
-from src.domains.policies.schemas import (
-    FlowValidationError,
-    PolicyValidation,
-)
+from src.domains.policies.schemas import FlowValidationError, PolicyValidation
 
 
 def print_helper(variable: str = '', value: any = None):

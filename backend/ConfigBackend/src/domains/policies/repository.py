@@ -1,4 +1,5 @@
 from typing import List
+
 from sqlalchemy import select
 
 from src.domains.policies.models import Policy

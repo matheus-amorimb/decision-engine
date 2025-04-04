@@ -2,18 +2,14 @@ from typing import Dict, List
 
 from sqlalchemy.orm import Session
 
-from ConfigBackend.src.domains.blocks.utils import (
-    create_or_update_block_rule_schema_to_entity,
-    create_or_updated_block_schema_to_entity,
-)
-from ConfigBackend.src.utils.string_utils import (
-    convert_spaces_to_underscores,
-    convert_underscores_to_spaces,
-)
 from src.domains.blocks.repository import BlockRepository, BlockRulesRepository
 from src.domains.blocks.schemas import (
     CreateOrUpdateBlockRuleSchema,
     CreateOrUpdateBlockSchema,
+)
+from src.domains.blocks.utils import (
+    create_or_update_block_rule_schema_to_entity,
+    create_or_updated_block_schema_to_entity,
 )
 from src.domains.policies.models import Block, BlockRule, BlockType, Policy
 from src.domains.policies.repository import PolicyRepository
@@ -33,6 +29,10 @@ from src.exceptions import (
     PolicyFlowValidationException,
     ResourceNotFoundException,
     ValidationException,
+)
+from src.utils.string_utils import (
+    convert_spaces_to_underscores,
+    convert_underscores_to_spaces,
 )
 
 

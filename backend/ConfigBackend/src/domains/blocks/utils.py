@@ -1,9 +1,5 @@
 from typing import List
 
-from ConfigBackend.src.utils.string_utils import (
-    convert_underscores_to_spaces,
-    convert_spaces_to_underscores,
-)
 from src.domains.blocks.schemas import (
     BlockRuleSchema,
     BlockSchema,
@@ -11,6 +7,10 @@ from src.domains.blocks.schemas import (
     CreateOrUpdateBlockSchema,
 )
 from src.domains.policies.models import Block, BlockRule
+from src.utils.string_utils import (
+    convert_spaces_to_underscores,
+    convert_underscores_to_spaces,
+)
 
 
 def block_model_to_schema(block: Block) -> BlockSchema:

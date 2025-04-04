@@ -1,4 +1,5 @@
 from sqlalchemy import delete
+
 from src.domains.policies.models import Block, BlockRule
 from src.repository import BaseRepository
 

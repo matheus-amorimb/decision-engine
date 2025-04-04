@@ -1,9 +1,6 @@
 import operator
 from typing import Callable, Dict, List
-from ConfigBackend.src.utils.string_utils import (
-    convert_spaces_to_underscores,
-    convert_underscores_to_spaces,
-)
+
 from src.domains.blocks.utils import block_model_to_schema
 from src.domains.policies.models import (
     Block,
@@ -12,7 +9,10 @@ from src.domains.policies.models import (
     Policy,
 )
 from src.domains.policies.schemas import PolicySchema
-
+from src.utils.string_utils import (
+    convert_spaces_to_underscores,
+    convert_underscores_to_spaces,
+)
 
 conditionCriteriaToOperatorFunc: Dict[str, Callable[[int, int], bool]] = {
     '>': operator.gt,
