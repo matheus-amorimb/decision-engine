@@ -42,6 +42,8 @@ If you’re not into `uv`, install dependencies manually:
 pip install -r requirements.txt
 ```
 
+*If you are using Windows, you must remove the "uvloop==0.21.0" line from requirements.txt before running the command above.
+
 ---
 
 ### 2. Setting Up the Database
@@ -82,7 +84,7 @@ alembic revision --autogenerate -m "initial migration"
 alembic upgrade head
 ```
 
-#### The Life-Saving Shortcut™
+#### The Life-Saving Shortcut™ (Only for Linux users, sorry)
 
 If you don’t want to run all these commands every time you restart your Docker container, just use the **`init_db.sh`** script inside the `scripts/` folder. This script:
 
