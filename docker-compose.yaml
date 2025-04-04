@@ -1,9 +1,9 @@
 version: '3.8'
 
 services:
-  decision_engine.db:
+  decision-engine-db:
     image: postgres:latest
-    container_name: decision_engine.db
+    container_name: decision-engine-db
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
@@ -33,10 +33,10 @@ services:
       context: ./backend/ConfigBackend
       dockerfile: Dockerfile
     environment:
-      - DATABASE_URL=postgresql+asyncpg://postgres:postgres@decision_engine.db:5432/decision_engine_db
+      - DATABASE_URL=postgresql+asyncpg://postgres:postgres@decision-engine-db:5432/decision_engine_db
       - PYTHONPATH=/app
     ports:
       - "8000:8000"
     depends_on:
-      decision_engine.db:
+      decision-engine-db:
         condition: service_healthy  # Ensures backend starts only when DB is ready
