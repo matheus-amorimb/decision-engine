@@ -27,8 +27,11 @@ I use **uv** to manage dependencies because it’s cool and fast, but feel free 
 #### Option 1: Using `uv` (recommended because I said so)
 
 ```zsh
-uv install  # Install dependencies
-uv shell    # Enter the virtual environment
+uv venv # Create the virtual environment
+
+source .venv/bin/activate # Activate the virtual environment
+
+uv pip sync requirements.txt # Install dependencies in the virtual environment
 ```
 
 #### Option 2: The old-fashioned way
@@ -52,7 +55,7 @@ We use **PostgreSQL** as our database. You’ll need an instance of PostgreSQL r
 A `docker-compose.yaml` file is chilling at the root of this project. Just run:
 
 ```zsh
-docker-compose up
+docker-compose up -d
 ```
 
 Boom. Instant PostgreSQL setup.
