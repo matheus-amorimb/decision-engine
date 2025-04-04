@@ -42,3 +42,5 @@ Just run:
 docker-compose up -d
 ```
 And voilà! The app is up and running. Minimal effort, maximum results.
+
+🔗 Access your application at http://localhost:5173.
